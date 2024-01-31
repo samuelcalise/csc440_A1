@@ -21,7 +21,7 @@ def fileHandling(filename):
                 size = int(line)
             else:
                 exit(1)
-        elif count<size:
+        elif count-1<size:
             students[line.split()[0]] = line.split()[1::]
         else:
             residents[line.split()[0]] = line.split()[1::]
@@ -36,20 +36,33 @@ def stableMatching(num_entries,students,hospitals):
     matches = {}
     freeStudents = []
     freeHospitals = []
-
+ 
     for student in students:
         freeStudents.append(student)
     
     for hospital in hospitals:
         freeHospitals.append(hospital)
 
-    while student in freeStudents:
-        currStudent = freeStudents.pop()
-        currStudentChoice = students[currStudent][0]
+    while len(matches) < num_entries:
+        currStudent = freeStudents.pop(0)
+        currStudentChoice = students[currStudent].pop(0)
+        
         if currStudentChoice in freeHospitals:
             matches[currStudentChoice] = currStudent
+            freeHospitals.remove(currStudentChoice)
         else:
-            curr
+            currMatchStudent = matches[currStudentChoice]
+            hospitalPrefernce = hospitals[currStudentChoice]
+            if hospitalPrefernce.index(currStudent) >= hospitalPrefernce.index(currMatchStudent):
+                freeStudents.append(currStudent)
+            else:
+                freeStudents.append(currMatchStudent)
+                matches[currStudentChoice] = currStudent
+    return matches
+
+def printResults(matches):
+    for match in matches:
+        print(matches[match]+" "+match)
 
 def main():
     if( len(sys.argv)==1 ):
@@ -58,6 +71,7 @@ def main():
        num_entries,students,hospital = fileHandling(sys.argv[1])
 
     matches = stableMatching(num_entries,students,hospital)
+    printResults(matches)
     
 
 main()

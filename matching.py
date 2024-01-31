@@ -1,5 +1,5 @@
 '''
-Samuel Calise and Sergio DeRosa
+Samuel Calise and Sergio DeSousa-Rosa
 
 Assignment1: matching.py 
 
@@ -56,7 +56,7 @@ def main():
        exit(1)
     else:
        num_entries,students,hospital = fileHandling(sys.argv[1])
-       print(students['Benjamin'])
+
     matches = stableMatching(num_entries,students,hospital)
     
 
